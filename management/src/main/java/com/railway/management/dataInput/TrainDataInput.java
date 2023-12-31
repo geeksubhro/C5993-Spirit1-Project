@@ -1,7 +1,5 @@
 package com.railway.management.dataInput;
 
-import java.util.Scanner;
-
 import com.railway.management.process.InputProcess;
 import com.railway.management.process.TrainProcess;
 
