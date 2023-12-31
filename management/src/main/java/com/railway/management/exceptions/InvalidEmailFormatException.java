@@ -1,6 +1,5 @@
 package com.railway.management.exceptions;
 
-//Create a new Java class for the custom exception, e.g., InvalidEmailFormatException.java
 public class InvalidEmailFormatException extends IllegalArgumentException {
 
  /**

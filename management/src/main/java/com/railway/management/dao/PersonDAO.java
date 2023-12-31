@@ -15,4 +15,8 @@ public interface PersonDAO {
     void updatePerson(Person person);
 
     void deletePerson(int id);
+
+	String getEmailByUsername(String username);
+
+	Person getPersonByUsername(String username);
 }

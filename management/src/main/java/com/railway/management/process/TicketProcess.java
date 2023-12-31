@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-
 import java.util.List;
 
 public class TicketProcess {
@@ -36,7 +35,7 @@ public class TicketProcess {
 				Ticket ticket = new Ticket();
 				ticket.setUser(user); // Set the User entity
 
-// Set other properties
+				// Set other properties
 				ticket.setDestination(destination);
 				ticket.setStartingStation(startingStation);
 				ticket.setEndStation(endStation);
@@ -49,7 +48,7 @@ public class TicketProcess {
 
 					saveTicket(session, ticket);
 
-// Commit the transaction
+					// Commit the transaction
 					transaction.commit();
 				} else {
 					System.out.println("Ticket with the same starting and end stations already exists. Skipping...");
@@ -61,29 +60,41 @@ public class TicketProcess {
 	}
 
 	public static void showTickets() {
-		SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
 
-		TicketDAO ticketDAO = new TicketDAOImpl(sessionFactory);
+		try (SessionFactory sessionFactory = configuration.buildSessionFactory();
+				Session session = sessionFactory.openSession()) {
 
-		List<Ticket> tickets = ticketDAO.getAllTickets();
+			TicketDAO ticketDAO = new TicketDAOImpl(session.getSessionFactory());
 
-		if (tickets != null && !tickets.isEmpty()) {
-			System.out.println("Printing all stored Tickets:");
-			for (Ticket ticket : tickets) {
-				System.out.println(ticket);
+			List<Ticket> tickets = ticketDAO.getAllTickets();
+
+			if (tickets != null && !tickets.isEmpty()) {
+				System.out.println("Printing all stored Tickets:");
+				for (Ticket ticket : tickets) {
+					System.out.println(ticket);
+				}
+			} else {
+				System.out.println("No Tickets found.");
 			}
-		} else {
-			System.out.println("No Tickets found.");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	public static List<Ticket> getBookedTicketsByUser(User user) {
-		SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+		Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
 
-		TicketDAO ticketDAO = new TicketDAOImpl(sessionFactory);
+		try (SessionFactory sessionFactory = configuration.buildSessionFactory();
+				Session session = sessionFactory.openSession()) {
 
-		return ticketDAO.getTicketsByUser(user);
+			TicketDAO ticketDAO = new TicketDAOImpl(session.getSessionFactory());
 
+			return ticketDAO.getTicketsByUser(user);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-
 }

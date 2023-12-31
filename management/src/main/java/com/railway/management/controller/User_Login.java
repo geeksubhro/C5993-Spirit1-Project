@@ -1,17 +1,15 @@
 package com.railway.management.controller;
 
-import java.util.Scanner;
-
 import com.railway.management.authentication.UserAuthentication;
 import com.railway.management.entity.User;
-import com.railway.management.process.UserProcess;
+import com.railway.management.process.InputProcess;
 import com.railway.management.process.TicketProcess;
+import com.railway.management.process.UserProcess;
 
 public class User_Login {
-
+	final static    InputProcess inputProcess = new InputProcess();
     public static void menu() {
-        Scanner scanner = new Scanner(System.in);
-        User user = getUser(scanner);
+        User user = getUser();
         if (user == null)
             return;
         int choice = 0;
@@ -19,7 +17,7 @@ public class User_Login {
         System.out.println("Welcome to the Train Management System, " + user.getName() + "!");
         while (choice != 5) {
             printMenuOptions();
-            choice = getUserChoice(scanner);
+            choice = inputProcess.getInt("Enter your choice: ");
 
             switch (choice) {
                 case 1:
@@ -29,7 +27,7 @@ public class User_Login {
                     viewBookedTickets(user);
                     break;
                 case 3:
-                    changePassword(user, scanner);
+                    changePassword(user);
                     break;
                 case 4:
                     System.out.println("Logging out. Goodbye!");
@@ -43,15 +41,11 @@ public class User_Login {
                     break;
             }
         }
-
-        scanner.close();
     }
 
-    private static User getUser(Scanner scanner) {
-        System.out.println("Enter User ID: ");
-        String userId = scanner.nextLine();
-        System.out.println("Enter Password: ");
-        String password = scanner.nextLine();
+    private static User getUser() {
+        String userId = inputProcess.getString("Enter User ID: ");
+        String password = inputProcess.getString("Enter Password: ");
 
         User authenticatedUser = UserAuthentication.authenticateUser(userId, password);
 
@@ -67,23 +61,6 @@ public class User_Login {
         System.out.println("5) Exit");
     }
 
-    private static int getUserChoice(Scanner scanner) {
-        int choice = 0;
-        boolean isValidInput = false;
-
-        while (!isValidInput) {
-            try {
-                choice = Integer.parseInt(scanner.nextLine());
-                isValidInput = true;
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid integer.");
-                printMenuOptions();
-            }
-        }
-
-        return choice;
-    }
-
     private static void viewProfile(User user) {
         System.out.println("You chose View My Profile.");
         System.out.println(user);
@@ -94,8 +71,8 @@ public class User_Login {
         TicketProcess.getBookedTicketsByUser(user).forEach(System.out::println);
     }
 
-    private static void changePassword(User user, Scanner scanner) {
+    private static void changePassword(User user) {
         System.out.println("You chose Change Password.");
-        UserProcess.changeUserPassword(user, scanner);
+        UserProcess.changeUserPassword(user);
     }
 }

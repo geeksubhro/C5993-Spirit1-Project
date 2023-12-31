@@ -2,45 +2,36 @@ package com.railway.management.dataInput;
 
 import com.railway.management.entity.Train;
 import com.railway.management.process.DestinationProcess;
+import com.railway.management.process.InputProcess;
 import com.railway.management.process.TrainProcess;
-
-import java.util.Scanner;
 
 public class DestinationDataInput {
 
 	public static void create() {
-		Scanner scanner = new Scanner(System.in);
+		InputProcess inputProcess = new InputProcess();
 
 		System.out.println("Enter Destination Details:");
 		TrainProcess.showTrains();
-		System.out.println("Do You want to Continue or Creat New Train?(yes/no)");
-		String flag = scanner.next().toLowerCase();
+		String flag = inputProcess.getString("Do You want to Continue or Creat New Train?(yes/no)").toLowerCase();
 		if (flag == "yes") {
 			TrainDataInput.create();
 			TrainProcess.showTrains();
 		}
-		System.out.println("Enter Train ID:");
-		int id= scanner.nextInt();
+
+		int id = inputProcess.getInt("Enter Train ID:");
 		Train train = TrainProcess.getTrainById(id);
-		System.out.print("Start Station: ");
-		String startStation = scanner.next();
 
-		System.out.print("End Station: ");
-		String endStation = scanner.next();
+		String startStation = inputProcess.getString("Start Station:  ");
 
-		System.out.print("Start Time: ");
-		String startTime = scanner.next();
+		String endStation = inputProcess.getString("End Station: ");
 
-		System.out.print("End Time: ");
-		String endTime = scanner.next();
-		scanner.next(); // Consume the newline character
+		String startTime = inputProcess.getString("Start Time: ");
 
-		System.out.print("Distance: ");
-		String distance = scanner.next();
+		String endTime = inputProcess.getString("End Time: ");
 
-		// Call the details method with user-input values
+		String distance = inputProcess.getString("Distance: ");
+
 		DestinationProcess.addDestination(train, startStation, endStation, startTime, endTime, distance);
 
-		scanner.close();
 	}
 }

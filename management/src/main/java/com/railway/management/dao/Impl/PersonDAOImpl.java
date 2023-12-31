@@ -11,79 +11,104 @@ import java.util.List;
 
 public class PersonDAOImpl implements PersonDAO {
 
+	private final SessionFactory sessionFactory;
 
-    private final SessionFactory sessionFactory;
+	public PersonDAOImpl(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 
-    public PersonDAOImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+	@Override
+	public void savePerson(Person person) {
+		Transaction transaction = null;
+		try (Session session = sessionFactory.openSession()) {
+			transaction = session.beginTransaction();
+			session.save(person);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Person getPersonById(int id) {
+		try (Session session = sessionFactory.openSession()) {
+			return session.get(Person.class, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public List<Person> getAllPersons() {
+		try (Session session = sessionFactory.openSession()) {
+			Query<Person> query = session.createQuery("FROM Person", Person.class);
+			return query.getResultList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public void updatePerson(Person person) {
+		Transaction transaction = null;
+		try (Session session = sessionFactory.openSession()) {
+			transaction = session.beginTransaction();
+			session.update(person);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void deletePerson(int id) {
+		Transaction transaction = null;
+		try (Session session = sessionFactory.openSession()) {
+			transaction = session.beginTransaction();
+			Person person = session.load(Person.class, id);
+			if (person != null) {
+				session.delete(person);
+			}
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public String getEmailByUsername(String username) {
+		try (Session session = sessionFactory.openSession()) {
+			Query<String> query = session.createQuery("SELECT p.email FROM Person p WHERE p.userId = :username",
+					String.class);
+			query.setParameter("username", username);
+			return query.uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
     @Override
-    public void savePerson(Person person) {
-        Transaction transaction = null;
+    public Person getPersonByUsername(String username) {
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.save(person);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public Person getPersonById(int id) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.get(Person.class, id);
+            Query<Person> query = session.createQuery("FROM Person WHERE userId = :username", Person.class);
+            query.setParameter("username", username);
+            return query.uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
 
-    @Override
-    public List<Person> getAllPersons() {
-        try (Session session = sessionFactory.openSession()) {
-            Query<Person> query = session.createQuery("FROM Person", Person.class);
-            return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
-    public void updatePerson(Person person) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            session.update(person);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deletePerson(int id) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Person person = session.load(Person.class, id);
-            if (person != null) {
-                session.delete(person);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
 }

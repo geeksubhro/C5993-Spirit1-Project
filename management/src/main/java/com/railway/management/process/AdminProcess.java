@@ -10,9 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-
 import java.util.List;
-import java.util.Scanner;
 
 public class AdminProcess {
 
@@ -90,10 +88,9 @@ public class AdminProcess {
 
     public static void updateAdminDetails() {
     	showAdmin();
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the admin_id you want to update: ");
-        int adminId = scanner.nextInt();
-
+    	InputProcess inputProcess =new InputProcess();
+        int adminId = inputProcess.getInt("Enter the admin_id you want to update: ");
+        
         Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
 
         try (SessionFactory factory = configuration.buildSessionFactory()) {
@@ -110,13 +107,12 @@ public class AdminProcess {
                     System.out.println("2. Person Details");
 
                     System.out.print("Enter the option number to update: ");
-                    int option = scanner.nextInt();
-                    scanner.nextLine(); // Consume the newline character
+                    int option = inputProcess.getInt(" ");
 
                     switch (option) {
                         case 1:
                             System.out.print("Enter new Admin Privilege: ");
-                            String newPrivilege = scanner.nextLine();
+                            String newPrivilege = inputProcess.getString(" ");
                             admin.setAdminPrivilege(newPrivilege);
                             break;
                         case 2:
@@ -138,8 +134,6 @@ public class AdminProcess {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            scanner.close();
         }
     }
 
@@ -160,45 +154,37 @@ public class AdminProcess {
             System.out.println("6. User ID");
             System.out.println("7. Password");
 
-            try (Scanner scanner = new Scanner(System.in)) {
-				System.out.print("Enter the option number to update: ");
-				int option = scanner.nextInt();
-				scanner.nextLine(); // Consume the newline character
+            try {
+				InputProcess inputProcess= new InputProcess();
+				int option = inputProcess.getInt("Enter the option number to update:  ");
 
 				switch (option) {
 				    case 1:
-				        System.out.print("Enter new Name: ");
-				        String newName = scanner.nextLine();
+				        String newName = inputProcess.getString("Enter new Name:  ");
 				        person.setName(newName);
 				        break;
 				    case 2:
-				        System.out.print("Enter new Email: ");
-				        String newEmail = scanner.nextLine();
+				        String newEmail =  inputProcess.getString("Enter new Email:  ");
 				        person.setEmail(newEmail);
 				        break;
 				    case 3:
-				        System.out.print("Enter new Age: ");
-				        int newAge = scanner.nextInt();
+				        int newAge =  inputProcess.getInt("Enter new Age:  ");
 				        person.setAge(newAge);
 				        break;
 				    case 4:
-				        System.out.print("Enter new Address: ");
-				        String newAddress = scanner.nextLine();
+				        String newAddress =  inputProcess.getString("Enter new Address:  ");
 				        person.setAddress(newAddress);
 				        break;
 				    case 5:
-				        System.out.print("Enter new Phone: ");
-				        Long newPhone = scanner.nextLong();
+				        Long newPhone =  inputProcess.getLong("Enter new Phone:  ");
 				        person.setPhone(newPhone);
 				        break;
 				    case 6:
-				        System.out.print("Enter new User ID: ");
-				        String newUserId = scanner.nextLine();
+				        String newUserId =  inputProcess.getString("Enter new User ID:  ");
 				        person.setUserId(newUserId);
 				        break;
 				    case 7:
-				        System.out.print("Enter new Password: ");
-				        String newPassword = scanner.nextLine();
+				        String newPassword =  inputProcess.getString("Enter new Password:  ");
 				        person.setPassword(newPassword);
 				        break;
 				    default:
@@ -206,6 +192,9 @@ public class AdminProcess {
 				        return;
 				}
 			}
+            catch (Exception e) {
+            	e.printStackTrace();
+            }
             Transaction transaction = session.beginTransaction();
             personDAO.updatePerson(person);
             transaction.commit();

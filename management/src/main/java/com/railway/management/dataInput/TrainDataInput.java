@@ -2,37 +2,28 @@ package com.railway.management.dataInput;
 
 import java.util.Scanner;
 
+import com.railway.management.process.InputProcess;
 import com.railway.management.process.TrainProcess;
 
 public class TrainDataInput {
 
 	public static void create() {
-		Scanner scanner = new Scanner(System.in);
+		InputProcess inputProcess = new InputProcess();
 
 		System.out.println("Enter Train Details:");
 
-		System.out.print("Train ID: ");
-		int trainId = scanner.nextInt();
-		scanner.nextLine(); // Consume the newline character
+		int trainId = inputProcess.getInt("Train ID: ");
 
-		System.out.print("Train Name: ");
-		String trainName = scanner.nextLine();
+		String trainName = inputProcess.getString("Train Name: ");
 
-		System.out.print("Speed: ");
-		int speed = scanner.nextInt();
-		scanner.nextLine(); // Consume the newline character
+		int speed = inputProcess.getInt("Speed: ");
 
-		System.out.print("Year of Start: ");
-		int yearOfStart = scanner.nextInt();
-		scanner.nextLine(); // Consume the newline character
+		int yearOfStart = inputProcess.getInt("Year of Start: ");
 
-		System.out.print("Capacity: ");
-		int capacity = scanner.nextInt();
-		scanner.nextLine(); // Consume the newline character
+		int capacity = inputProcess.getInt("Capacity: ");
 
 		// Call the addTrain method with user-input values
 		TrainProcess.addTrain(trainId, trainName, speed, yearOfStart, capacity);
 
-		scanner.close();
 	}
 }

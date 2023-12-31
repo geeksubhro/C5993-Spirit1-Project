@@ -3,44 +3,35 @@ package com.railway.management.dataInput;
 import com.railway.management.entity.Destination;
 import com.railway.management.entity.User;
 import com.railway.management.process.DestinationProcess;
+import com.railway.management.process.InputProcess;
 import com.railway.management.process.TicketProcess;
 import com.railway.management.process.UserProcess;
 
-import java.util.Scanner;
-
 public class TicketDataInput {
 
-    public static void bookTicket() {
-        Scanner scanner = new Scanner(System.in);
+	public static void bookTicket() {
+		InputProcess inputProcess = new InputProcess();
 
-        System.out.println("Enter Ticket Details:");
-        UserProcess.showUsers();
-        System.out.print("Enter User ID: ");
-        int userId = scanner.nextInt();
-        User user = UserProcess.getUserById(userId);
+		System.out.println("Enter Ticket Details:");
+		UserProcess.showUsers();
+		int userId = inputProcess.getInt("Enter User ID: ");
+		User user = UserProcess.getUserById(userId);
 
-        DestinationProcess.showDestinations();
-        System.out.print("Enter Destination ID: ");
-        int destinationId = scanner.nextInt();
-        Destination destination = DestinationProcess.getDestinationById(destinationId);
+		DestinationProcess.showDestinations();
+		int destinationId = inputProcess.getInt("Enter Destination ID: ");
+		Destination destination = DestinationProcess.getDestinationById(destinationId);
 
-        System.out.print("Starting Station: ");
-        String startingStation = scanner.next();
+		String startingStation = inputProcess.getString("Starting Station: ");
 
-        System.out.print("End Station: ");
-        String endStation = scanner.next();
+		String endStation = inputProcess.getString("End Station: ");
 
-        System.out.print("Time of Booking: ");
-        String timeOfBooking = scanner.next();
+		String timeOfBooking = inputProcess.getString("Time of Booking: ");
 
-        System.out.print("Payment Mode: ");
-        String paymentMode = scanner.next();
+		String paymentMode = inputProcess.getString("Payment Mode: ");
 
-        System.out.print("Cost: ");
-        int cost = scanner.nextInt();
+		int cost = inputProcess.getInt("Cost: ");
 
-        TicketProcess.bookTicket(user, destination, startingStation, endStation, timeOfBooking, paymentMode, cost);
+		TicketProcess.bookTicket(user, destination, startingStation, endStation, timeOfBooking, paymentMode, cost);
 
-        scanner.close();
-    }
+	}
 }

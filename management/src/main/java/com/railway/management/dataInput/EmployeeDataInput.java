@@ -1,47 +1,33 @@
 package com.railway.management.dataInput;
 
-import java.util.Scanner;
-
 import com.railway.management.process.EmployeeProcess;
-
+import com.railway.management.process.InputProcess;
 
 public class EmployeeDataInput {
 
-    public static void create() {
-        Scanner scanner = new Scanner(System.in);
+	public static void create() {
+		InputProcess inputProcess = new InputProcess();
+		System.out.println("Enter Person Details:");
+		String name = inputProcess.getString("Name:  ");
 
-        System.out.println("Enter Person Details:");
-        System.out.print("Name: ");
-        String name = scanner.nextLine();
+		String email = inputProcess.getString("Email:  ");
 
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
+		int age = inputProcess.getInt("Age:  ");
 
-        System.out.print("Age: ");
-        int age = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+		String address = inputProcess.getString("Address:  ");
+		 
+		Long phone = inputProcess.getLong("Phone:  ");
 
-        System.out.print("Address: ");
-        String address = scanner.nextLine();
+		String userId = inputProcess.getString("User ID:  ");
 
-        System.out.print("Phone: ");
-        Long phone = scanner.nextLong();
-        scanner.nextLine(); // Consume the newline character
+		String password = inputProcess.getString("Password:  ");
 
-        System.out.print("User ID: ");
-        String userId = scanner.nextLine();
+		System.out.println("Enter Employee Details:");
 
-        System.out.print("Password: ");
-        String password = scanner.nextLine();
+		int salary = inputProcess.getInt("Salary: ");
 
-        System.out.println("Enter Employee Details:");
+		// Call the details method with user-input values
+		EmployeeProcess.addEmployee(name, email, age, address, phone, userId, password, salary);
 
-        System.out.print("Salary: ");
-        int salary = scanner.nextInt();
-
-        // Call the details method with user-input values
-        EmployeeProcess.addEmployee(name, email, age, address, phone, userId, password, salary);
-
-        scanner.close();
-    }
+	}
 }

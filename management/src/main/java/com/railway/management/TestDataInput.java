@@ -36,11 +36,11 @@ public class TestDataInput {
 
 	private static void createUsers() {
 
-		UserProcess.addUser("User1", "user1@example.com", 25, "User Street 1", 1111111111L, "user1", "userpass1", null);
-		UserProcess.addUser("User2", "user2@example.com", 30, "User Street 2", 2222222222L, "user2", "userpass2", null);
-		UserProcess.addUser("User3", "user3@example.com", 35, "User Street 3", 3333333333L, "user3", "userpass3", null);
-		UserProcess.addUser("User4", "user4@example.com", 40, "User Street 4", 4444444444L, "user4", "userpass4", null);
-		UserProcess.addUser("User5", "user5@example.com", 45, "User Street 5", 5555555555L, "user5", "userpass5", null);
+		UserProcess.addUser("User1", "user1@example.com", 25, "User Street 1", 1111111111L, "user1", "userpass1");
+		UserProcess.addUser("User2", "user2@example.com", 30, "User Street 2", 2222222222L, "user2", "userpass2");
+		UserProcess.addUser("User3", "user3@example.com", 35, "User Street 3", 3333333333L, "user3", "userpass3");
+		UserProcess.addUser("User4", "user4@example.com", 40, "User Street 4", 4444444444L, "user4", "userpass4");
+		UserProcess.addUser("User5", "user5@example.com", 45, "User Street 5", 5555555555L, "user5", "userpass5");
 	}
 
 	private static void createEmployees() {

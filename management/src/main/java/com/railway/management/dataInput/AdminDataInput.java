@@ -1,41 +1,32 @@
 package com.railway.management.dataInput;
 
-import java.util.Scanner;
 import com.railway.management.process.AdminProcess;
+import com.railway.management.process.InputProcess;
 
 public class AdminDataInput {
 
     public static void create() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Enter Person Details:");
-            System.out.print("Name: ");
-            String name = scanner.nextLine();
+    	try{
+    	System.out.println("Enter Person Details:");
+            InputProcess inputProcess= new InputProcess();
+            String name =  inputProcess.getString("Name:  ");
 
-            System.out.print("Email: ");
-            String email = scanner.nextLine();
+            String email = inputProcess.getString("Email:  ");
 
-            System.out.print("Age: ");
-            int age = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            int age = inputProcess.getInt("Age:  ");
 
-            System.out.print("Address: ");
-            String address = scanner.nextLine();
+            String address = inputProcess.getString("Address:  ");
 
-            System.out.print("Phone: ");
-            Long phone = scanner.nextLong();
-            scanner.nextLine(); // Consume the newline character
+            Long phone =inputProcess.getLong("Phone:  ");
 
-            System.out.print("User ID: ");
-            String userId = scanner.nextLine();
+            String userId = inputProcess.getString("User ID:  ");
 
-            System.out.print("Password: ");
-            String password = scanner.nextLine();
+            String password =inputProcess.getString("Password:  ");
             String privillage = null;
 
-            System.out.println("Enter Admin Privilege:\n(1 for Full Access, 2 for Limited Access and 3 for Readonly)");
             int privil;
             do {
-                privil = scanner.nextInt();
+                privil = inputProcess.getInt("Enter Admin Privilege:\\n(1 for Full Access, 2 for Limited Access and 3 for Read Only) ");
                 if (privil == 1) {
                     privillage = "Full Access";
                     break;
@@ -50,6 +41,9 @@ public class AdminDataInput {
 
             // Call the details method with user-input values
             AdminProcess.addAdmin(name, email, age, address, phone, userId, password, privillage);
+        }catch (Exception e){
+        	e.printStackTrace();
         }
+    	
     }
 }
