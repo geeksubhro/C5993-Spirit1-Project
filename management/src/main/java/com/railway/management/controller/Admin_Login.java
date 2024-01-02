@@ -1,6 +1,5 @@
 package com.railway.management.controller;
 
-import java.util.Scanner;
 import com.railway.management.dataInput.AdminDataInput;
 import com.railway.management.dataInput.DestinationDataInput;
 import com.railway.management.dataInput.EmployeeDataInput;
@@ -9,13 +8,14 @@ import com.railway.management.entity.Admin;
 import com.railway.management.process.AdminProcess;
 import com.railway.management.process.DestinationProcess;
 import com.railway.management.process.EmployeeProcess;
+import com.railway.management.process.InputProcess;
 import com.railway.management.process.TrainProcess;
 import com.railway.management.authentication.AdminAuthentication;
 
 public class Admin_Login {
     public static void menu() {
-        Scanner scanner = new Scanner(System.in);
-        Admin admin = getAdmin(scanner);
+    	InputProcess inputProcess = new InputProcess();
+        Admin admin = getAdmin();
         if (admin == null)
             return;
         int choice = 0;
@@ -36,9 +36,9 @@ public class Admin_Login {
 
             try {
                 try {
-                    choice = scanner.nextInt();
+                    choice = inputProcess.getInt("Enter Your Choice: ");
                 } catch (java.util.NoSuchElementException e) {
-                    handleInputMismatch(scanner);
+                    handleInputMismatch();
                     continue;
                 }
                 switch (choice) {
@@ -92,28 +92,24 @@ public class Admin_Login {
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid integer.");
                 // Consume the invalid input
-                scanner.nextLine();
             }
             catch (java.util.NoSuchElementException e) {
-                handleInputMismatch(scanner);
+                handleInputMismatch();
                 continue;
             }
 
         }
 
-        scanner.close();
     }
 
-    private static void handleInputMismatch(Scanner scanner) {
+    private static void handleInputMismatch() {
         System.out.println("Input mismatch. Please try logging in again.");
-        scanner.nextLine(); // Consume the newline character
     }
 
-    private static Admin getAdmin(Scanner scanner) {
-        System.out.println("Enter Admin ID: ");
-        String userId = scanner.nextLine();
-        System.out.println("Enter Password: ");
-        String password = scanner.nextLine();
+    private static Admin getAdmin() {
+    	InputProcess inputProcess = new InputProcess();
+        String userId = inputProcess.getString("Enter Admin ID: ");
+        String password = inputProcess.getString("Enter Password: ");
 
         Admin authenticatedAdmin = AdminAuthentication.authenticateAdmin(userId, password);
 

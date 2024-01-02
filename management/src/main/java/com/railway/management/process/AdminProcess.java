@@ -89,7 +89,7 @@ public class AdminProcess {
     public static void updateAdminDetails() {
     	showAdmin();
     	InputProcess inputProcess =new InputProcess();
-        int adminId = inputProcess.getInt("Enter the admin_id you want to update: ");
+        int adminId = inputProcess.getInt("Enter the admin_id you want to update\nEnter '0' If You want to Exit: : ");
         
         Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
 

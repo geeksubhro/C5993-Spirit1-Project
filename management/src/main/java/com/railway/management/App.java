@@ -3,6 +3,7 @@ package com.railway.management;
 import org.hibernate.SessionFactory;
 import com.railway.management.config.HibernateUtil;
 import com.railway.management.controller.UserChoice;
+import com.railway.management.dataInput.TicketDataInput;
 import com.railway.management.exceptions.NeedNewMenuException;
 
 public class App {
@@ -10,7 +11,8 @@ public class App {
 		createSession();
 //		TestDataInput.AddData();
 //		TestDataShowAll.show();
-			UserChoice.menu();
+//			UserChoice.menu();
+			TicketDataInput.bookTicket();
 
 	}
 

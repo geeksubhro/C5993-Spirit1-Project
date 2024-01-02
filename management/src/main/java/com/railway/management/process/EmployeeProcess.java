@@ -89,7 +89,8 @@ public class EmployeeProcess {
 	public static void updateEmployeeDetails() {
 		showEmployees();
 		InputProcess inputProcess = new InputProcess();
-		int employeeId = inputProcess.getInt("Enter the employee_id you want to update: ");
+		int employeeId = inputProcess
+				.getInt("Enter the employee_id you want to update\nEnter '0' If You want to Exit: ");
 
 		Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
 

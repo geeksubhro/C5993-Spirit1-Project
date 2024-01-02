@@ -1,20 +1,19 @@
 package com.railway.management.controller;
 
-import java.util.Scanner;
-
 import com.railway.management.dataInput.DestinationDataInput;
 import com.railway.management.dataInput.TicketDataInput;
 import com.railway.management.dataInput.TrainDataInput;
 import com.railway.management.entity.Employee;
 import com.railway.management.process.DestinationProcess;
+import com.railway.management.process.InputProcess;
 import com.railway.management.process.TrainProcess;
 import com.railway.management.authentication.EmployeeAuthentication;
 
 public class Employee_Login {
 
     public static void menu() {
-        Scanner scanner = new Scanner(System.in);
-        Employee employee = getEmployee(scanner);
+    	InputProcess inputProcess= new InputProcess();
+        Employee employee = getEmployee();
         if (employee == null)
             return;
 
@@ -23,7 +22,7 @@ public class Employee_Login {
 
         while (choice != 7) {
             printMenuOptions();
-            choice = getUserChoice(scanner);
+            choice = getUserChoice();
 
             switch (choice) {
                 case 1:
@@ -57,14 +56,13 @@ public class Employee_Login {
             }
         }
 
-        scanner.close();
     }
 
-    private static Employee getEmployee(Scanner scanner) {
-        System.out.println("Enter Employee ID: ");
-        String userId = scanner.nextLine();
-        System.out.println("Enter Password: ");
-        String password = scanner.nextLine();
+    private static Employee getEmployee(
+) {
+        InputProcess inputProcess = new InputProcess();
+        String userId = inputProcess.getString("Enter Employee ID: ");
+        String password = inputProcess.getString("Enter Password: ");
 
         Employee authenticatedEmployee = EmployeeAuthentication.authenticateEmployee(userId, password);
 
@@ -83,13 +81,13 @@ public class Employee_Login {
         System.out.println("8) Exit");
     }
 
-    private static int getUserChoice(Scanner scanner) {
+    private static int getUserChoice() {
         int choice = 0;
         boolean isValidInput = false;
-
+        InputProcess inputProcess = new InputProcess();
         while (!isValidInput) {
             try {
-                choice = Integer.parseInt(scanner.nextLine());
+                choice = (inputProcess.getInt("Enter a Number: "));
                 isValidInput = true;
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid integer.");
